@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE configuration  
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"  
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>    
+	<!-- 属性文件,别名，MyBatis框架自身的设置，环境，映射文件
+	  当MyBatis与Spring整合时，这个配置除Settings外，其它的都可以放在Spring的配置文件中配置。
+	 如果不需要设置 settings 配置那么，此文件是一个空文件，所以通常把别名的设置留在这个文件中配置。
+	-->
+	<plugins>
+		<plugin interceptor="com.order.PageInterceptor"/>
+	</plugins>
+
+</configuration>
