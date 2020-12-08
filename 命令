@@ -1,0 +1,61 @@
+docker:
+	service docker start/stop/restart docker开启/停止/重启
+	
+	docker服务设置开机自启动
+	查看已启动的服务
+	systemctl list-units --type=service
+	查看是否设置开机启动
+	systemctl list-unit-files | grep enable
+	设置开机启动
+	systemctl enable docker.service
+	
+	项目Dockerfile启动
+	docker build -t  feign8088 .
+	docker run -d -p 8086:8086 consumer8086 
+	
+	容器操作
+	docker container ls -a  或者  docker ps  #获得容器信息
+	docker container stop <container ID>
+	docker container rm  <container ID>
+	docker restart <container ID>
+	
+	docker update redis --restart=always 容器自启动 redis换成对应的容器Names
+	
+	镜像操作
+	docker image rm  <IMAGE ID。>
+	docker rmi <Repository:tag>即删除时指定名称，而不是IMAGE ID。
+	
+	查看容器内
+		进入容器 docker exec -it 镜像id /bin/bash
+
+		将容器96f7f14e99ab的/www目录拷贝到主机的/tmp目录中。
+		docker cp  96f7f14e99ab:/www /tmp/
+
+reids:
+	启动redis容器
+	docker run -d -p 6379:6379 -v $PWD/conf/redis.conf:/etc/redis/redis.conf  -v $PWD/data:/data --name redis1 docker.io/redis redis-server /etc/redis/redis.conf  --appendonly yes
+
+	docker run -d -p 6379:6379 --restart always -v /opt/redis/conf/redis.conf:/etc/redis/redis.conf -v /opt/redis/data:/data --name redis redis redis-server /etc/redis/redis.conf --appendonly yes
+
+	-d：表示后台运行
+	-p：表示端口映射
+	--name：是我们给redis容器取的名字
+	-v：表示挂载路径，$PWD表示当前目录下，冒号左面的表示我们宿主机的挂载目录，也就是我们虚拟机所在的文件路径，
+	    冒号右边则表是的是redis容器在容器内部的路径，上面的命令我分别挂载了redis.conf(redis的配置文件)，如需
+	    使用配置文件的方式启动redis，这里则需要加上，还有redis存放数据所在的目录
+
+
+	redis-server /usr/redis/server1/conf/redis.conf :指定配置文件启动redis-server进程
+	--appendonly yes：表示redis开启持久化策略
+
+	进入redis
+	docker exec -it CONTAINER ID redis-cli
+
+rabbitmq:
+	启动:
+	docker run -d -p 1883:1883 -p 4369:4369 -p 5671:5671 -p 5672:5672 -p 15672:15672 -p 25672:25672 -p 61613:61613 -p 61614:61614 -p 8883:8883 -v $PWD/etc:/etc/rabbitmq -v $PWD/lib:/var/lib/rabbitmq -v $PWD/log:/var/log/rabbitmq --name rabbit rabbitmq:management
+
+mongoDB:
+docker mongoDB安装教程 : https://www.jianshu.com/p/2181b2e27021
+进入 mongo 交互模式
+docker exec -it <CONTAINER NAME> mongo admin
